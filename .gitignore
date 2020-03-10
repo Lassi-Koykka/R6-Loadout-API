@@ -130,4 +130,10 @@ dmypy.json
 
 
 # vscode stuff
+.vscode/
+.vscode
 .vscode/*
+
+#Operatorfiles
+attackers.json
+defenders.json

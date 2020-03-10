@@ -169,13 +169,13 @@ def updateOperatorFiles():
     attackers = listNames('https://rainbowsix.fandom.com/wiki/Category:Attacker')
 
     atk_operators = createOpList(attackers)
-    saveOperators(atk_operators, 'attackers.json')
+    saveOperators(atk_operators, '../attackers.json')
 
     #create a list of defenders
     defenders = listNames('https://rainbowsix.fandom.com/wiki/Category:Defender')
 
     def_operators = createOpList(defenders)
-    saveOperators(def_operators, 'defenders.json')
+    saveOperators(def_operators, '../defenders.json')
 
 def deliverOperators():
     """Checks if operator files exist and returns a random loadout"""
