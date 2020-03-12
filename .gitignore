@@ -137,3 +137,7 @@ dmypy.json
 #Operatorfiles
 attackers.json
 defenders.json
+app/opIcons/
+app/opPics/
+app/opIcons/*
+app/opPics/*

@@ -1,6 +1,7 @@
 import requests
 import json
 import random
+import urllib.request
 from bs4 import BeautifulSoup
 
 def newSoup(url):
@@ -16,6 +17,18 @@ def parseLists(item):
         soup = BeautifulSoup(response.text, 'html.parser')
         thingsList = []
         try:
+            try:
+                #Find the location of 
+                opPicLocation = soup.findAll(class_='pi-image-thumbnail')[0]['src'];
+                opIconLocation = soup.findAll(class_='pi-image-thumbnail')[1]['src'];
+                opPicPath = './opPics/' + item + '.png'
+                opIconPath = './opIcons/' + item + 'Icon.png'
+                urllib.request.urlretrieve(opPicLocation, opPicPath)
+                urllib.request.urlretrieve(opIconLocation, opIconPath)
+                #urllib.request.urlretrieve(opIconLocation, '../opIcons/' + item + 'Icon.png')
+            except:
+                print("Couldn't find or download image or icon")
+                opIconLocation = ""
             things_html = soup.find(class_='article-table').find_all('td')
         except:
                 print("couldn't find the page, retrying with:")
@@ -39,7 +52,9 @@ def parseLists(item):
                     for j in el:
                         tempList.append({
                             "name": j.get_text(),
-                            "link": j['href']
+                            "link": j['href'],
+                            "icon": opIconPath,
+                            "picture": opPicPath
                         })  # key is name of thing, val is link
                     thingsList.append(tempList)
         except:
@@ -169,13 +184,13 @@ def updateOperatorFiles():
     attackers = listNames('https://rainbowsix.fandom.com/wiki/Category:Attacker')
 
     atk_operators = createOpList(attackers)
-    saveOperators(atk_operators, '../attackers.json')
+    saveOperators(atk_operators, './teams/attackers.json')
 
     #create a list of defenders
     defenders = listNames('https://rainbowsix.fandom.com/wiki/Category:Defender')
 
     def_operators = createOpList(defenders)
-    saveOperators(def_operators, '../defenders.json')
+    saveOperators(def_operators, './teams/defenders.json')
 
 def deliverOperators():
     """Checks if operator files exist and returns a random loadout"""
@@ -189,3 +204,6 @@ def deliverOperators():
     elif teamchoice == 'D' or teamchoice == 'd':
         def_operators = readOperators('defenders.json')
         randomizeOperator(def_operators)
+
+
+#updateOperatorFiles()
